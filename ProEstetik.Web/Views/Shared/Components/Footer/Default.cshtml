@@ -1,0 +1,55 @@
+﻿<footer class="footer">
+    <div class="footer-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="footer-column footer-about">
+                        <h3 class="footer-title">İzmir Pro Estetik Diş Kliniği</h3>
+                        <p class="footer-about-text"></p>
+                        <img src="/img/Main/footertoplu.jpg" alt="İzmir Pro Estetik Diş Kliniği">
+                      
+                    </div>
+                </div>
+                <div class="col-md-3 offset-md-1">
+                    <div class="footer-column footer-explore clearfix">
+                        <h3 class="footer-title">Linkler</h3>
+                        <ul class="footer-explore-list list-unstyled">
+                            <li><a asp-controller="Home" asp-action="Index">Anasayfa</a></li>
+                            <li><a asp-controller="About" asp-action="Index">Hakkımızda</a></li>
+                            <li><a asp-controller="Blog" asp-action="Index">Ekip</a></li>
+                            <li><a href="#">Hizmetler</a></li>
+                            <li><a asp-controller="Team" asp-action="Index">Blog</a></li>
+                            <li><a asp-controller="Contact" asp-action="Index">İletişim</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="footer-column footer-contact">
+                        <h3 class="footer-title">İletişim</h3>
+                        <p class="footer-contact-text">Kazım Dirik Mah. 375 Sk. No: 16/A Bornova<br>İzmir / Türkiye</p>
+                        <div class="footer-contact-info">
+                            <p class="footer-contact-phone"><span class="flaticon-call"></span> @DataRequestModel.SiteSetting.Phone</p>
+                            <p class="footer-contact-mail">@DataRequestModel.SiteSetting.Email</p>
+                        </div>
+                        <div class="footer-about-social-list">
+                            <a href="@DataRequestModel.SiteSetting.Instagram"><i class="ti-instagram"></i></a>
+                            <a href="@DataRequestModel.SiteSetting.Facebook"><i class="ti-facebook"></i></a>
+                            <a href="@DataRequestModel.SiteSetting.Youtube"><i class="ti-youtube"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="footer-bottom-inner">
+                        <p class="footer-bottom-copy-right">© 2025 Bütün hakları saklıdır. Web tasarım İdeio Creative</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

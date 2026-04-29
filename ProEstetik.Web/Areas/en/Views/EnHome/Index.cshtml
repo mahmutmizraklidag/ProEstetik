@@ -1,0 +1,334 @@
+﻿@{
+    ViewData["Title"] = string.IsNullOrEmpty(DataRequestModel.SiteSetting?.MetaTitle) ? "Home" : DataRequestModel.SiteSetting?.MetaTitle;
+    ViewData["MetaDescription"] = string.IsNullOrEmpty(DataRequestModel.SiteSetting?.MetaDescription) ? "Pro Estetik Diş Kliniği" : DataRequestModel.SiteSetting?.MetaDescription;
+    ViewData["MetaKeywords"] = string.IsNullOrEmpty(DataRequestModel.SiteSetting?.Keywords) ? "Pro Estetik Diş Kliniği" : DataRequestModel.SiteSetting?.Keywords;
+
+}
+<!-- Slider -->
+<header class="header slider-fade">
+    <div class="owl-carousel owl-theme">
+        <!-- The opacity on the image is made with "data-overlay-dark="number". You can change it using the numbers 0-9. -->
+        @foreach (var slider in DataRequestModel.Sliders)
+        {
+            <div class="text-center item bg-img" data-overlay-dark="2" data-background="@Url.Content("~/image/" + slider.Image)">
+                <div class="v-middle caption">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-10 offset-md-1">
+
+                                <h4>@slider.Title</h4>
+                                <h1>@slider.Description</h1>
+                                <div class="butn-light mt-30 mb-30"> <a href="#" data-scroll-nav="1"><span>SERVICES</span></a> </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+
+
+    </div>
+    <div class="reservation">
+        <a href="tel:+902324634747">
+            <div class="icon d-flex justify-content-center align-items-center">
+                <i class="flaticon-call"></i>
+            </div>
+            <div class="call"><span>+90 530 996 1599</span> <br>Call Us</div>
+        </a>
+    </div>
+</header>
+
+<!-- About -->
+<section class="about section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mb-30 mt-90 animate-box fadeInUp animated" data-animate-effect="fadeInUp">
+
+                <div class="section-subtitle">
+                    İzmir Pro Aesthetic Dental Clinic
+                </div>
+                <h1>
+                    WHO ARE WE?
+                </h1>
+
+
+
+                <p>
+                    Pro Aesthetic Dental Clinic was founded in 2011 in Izmir, Turkey, by Assoc. Prof. Dr. M. Selim Bilgin. In our spacious 500 m² clinic equipped with the latest technology, we provide comprehensive dental care services to both local and international patients. Our expert dentists are dedicated to restoring your dental health and creating the smile you’ve always wanted—with years of experience and personalized care.
+                </p>
+
+
+
+                <div class="reservations">
+
+                    <div class="icon"><span class="flaticon-call"></span></div>
+                    <div class="text">
+                        <p>Call US</p><a href="tel:+90 530 996 1599">+90 530 996 1599</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col col-md-3 animate-box onlypc fadeInUp animated" data-animate-effect="fadeInUp">
+                <img src="/img/destist-chair1.png" alt="Izmir Pro Aesthetic Dental Clinic" class="mt-90 mb-30">
+            </div>
+            <div class="col col-md-3 animate-box onlypc fadeInUp animated" data-animate-effect="fadeInUp">
+                <img src="/img/klinik-k2.jpg" alt="Izmir Pro Aesthetic Dental Clinic">
+
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Promo Video -->
+<section class="video-wrapper video section-padding bg-img bg-fixed" data-overlay-dark="3" data-background="/img/ban2.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2 text-center">
+
+                <div class="section-subtitle"><span>İzmir Pro Aesthetic Dental Clinic  </span></div>
+                <div class="section-title"><span>Everything About Aesthetic <br>Dentistry<br> On Our YouTube Channel  </span></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="text-center col-md-12">
+                <a class="vid" target="_blank" href="https://www.youtube.com/channel/UC6e3Q1NL113OUGoLCKrvSCQ">
+                    <div class="vid-butn">
+                        <span class="icon">
+                            <i class="ti-control-play"></i>
+                        </span>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</section>
+@* Sertifikalar *@
+<!-- Image Gallery -->
+<section class="section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-subtitle">İzmir Pro Aesthetic Dental Clinic</div>
+                <div class="section-title">
+                    Our Certificates
+                </div>
+            </div>
+
+            <!-- 2 columns -->
+            <div class="col-md-6 gallery-item">
+                <a href="img/sertifika.jpeg" title="" class="img-zoom">
+                    <div class="gallery-box">
+                        <div class="gallery-img"> <img src="img/sertifika.jpeg" class="img-fluid mx-auto d-block" alt="our certificates"> </div>
+                    </div>
+                </a>
+            </div>
+
+
+        </div>
+    </div>
+</section>
+<!-- Services -->
+<section class="services section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-subtitle">İzmir Pro Aesthetic Dental Clinic </div>
+                <div class="section-title">Our Services</div>
+            </div>
+        </div>
+        @foreach (var item in DataRequestModel.Services.Select((value, index) => new { value, index }))
+        {
+            var isEven = item.index % 2 == 0; // 0,2,4 → çift index yani 1.,3.,5. item → resim solda
+                                              <div class="row">
+                @if (isEven)
+                {
+                    <!-- Resim solda -->
+                    <div class="col-md-6 p-0 animate-box" data-animate-effect="fadeInLeft">
+                        <div class="img left">
+                            <a asp-area="en" asp-controller="EnServices" asp-action="Index" asp-route-slug="@item.value.Slug"><img src="~/image/@item.value.Image2" alt="@item.value.Title"></a>
+                        </div>
+                    </div>
+                    <div class="col-md-6 p-0 bg-cream valign animate-box" data-animate-effect="fadeInRight">
+                        <div class="content">
+                            <div class="cont text-left">
+
+                                <h4>@item.value.HomeTitle</h4>
+                                <p>@item.value.ShortDescription</p>
+                                <div class="butn-dark">
+                                    <a asp-area="en" asp-controller="EnServices" asp-action="Index" asp-route-slug="@item.value.Slug"><span>Read More</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <!-- Resim sağda -->
+                    <div class="col-md-6 bg-cream p-0 order2 valign animate-box" data-animate-effect="fadeInLeft">
+                        <div class="content">
+                            <div class="cont text-left">
+
+                                <h4>@item.value.HomeTitle</h4>
+                                <p>@item.value.ShortDescription</p>
+                                <div class="butn-dark">
+                                    <a asp-controller="Services" asp-action="Index" asp-route-slug="@item.value.Slug"><span>Devamı</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 p-0 order1 animate-box" data-animate-effect="fadeInRight">
+                        <div class="img">
+                            <a asp-controller="Services" asp-action="Index" asp-route-slug="@item.value.Slug"><img src="~/image/@item.value.Image2" alt="@item.value.Title"></a>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+
+    </div>
+</section>
+
+<!-- Team -->
+<section class="team section-padding bg-cream">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-subtitle">Izmir Pro Aesthetic</div>
+                <div class="section-title">Our Expert Dentists</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 owl-carousel owl-theme">
+                @foreach (var team in DataRequestModel.Teams)
+                {
+                    <div class="item">
+                        <div class="img"> <img src="image/@team.Image" alt="@team.Name"> </div>
+                        <div class="info">
+                            <h6>@team.Name</h6>
+                            <p>@team.Position</p>
+                            <div class="social valign">
+                                <div class="full-width">
+                                    <a href="#"><i class="ti-instagram"></i></a>
+                                    <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+                                    <a href="#"><i class="ti-facebook"></i></a>
+                                    <a href="#"><i class="fa-brands fa-tiktok"></i></a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="pricing section-padding bg-black">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="section-subtitle"><span>İzmir Pro Aesthetic Dental Clinic </span></div>
+                <div class="section-title">
+                    <span>
+                        Why Choose Pro Aesthetic?
+
+                    </span>
+                </div>
+                <p class="color-2">
+                    Gaining our patients' trust is our top priority! Since 2011, Pro Aesthetic Dental Clinic has been delivering top-quality oral and dental care. We serve both national and international patients, expanding our network while maintaining excellence. Using the latest technology in a modern clinic setting, we ensure your treatment experience is effective and comfortable.
+
+
+                </p>
+                <div class="reservations mb-30">
+                    <div class="icon"><span class="flaticon-call"></span></div>
+                    <div class="text">
+                        <p class="color-2">Call Us</p> <a href="tel:+90 530 996 1599">+90 530 996 1599</a>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-6 mt-20">
+
+                <div class="section-title ">
+                    <span>
+                        Clinic Opportunities
+
+                    </span>
+                </div>
+                <p class="color-2">  You'll enjoy your journey to regain your dental health and smile.</p>
+                <ul class="color-2">
+                    <li>Experienced and specialized medical staff</li>
+                    <li>
+                        Services approved by the Ministry of Health
+                    </li>
+                    <li>
+                        Hygienic and sterile environment
+                    </li>
+                    <li>
+                        State-of-the-art equipment
+                    </li>
+                    <li>
+                        Central location with easy access
+                    </li>
+                    <li>
+                        Translation support for international patients
+                    </li>
+
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</section>
+<section class="video-wrapper video section-padding bg-img bg-fixed" data-overlay-dark="3" data-background="@Url.Content("~/img/banner1.jpg")" style="background-image: url('@Url.Content("~/img/banner1.jpg")');">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2 text-center">
+
+                <div class="section-subtitle"><span>İzmir Pro Aesthetic Dental Clinic</span></div>
+                <div class="section-title"><span>et Us Offer You the Smile You’ve Dreamed of With Years of Experience!</span></div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+
+<section class="team section-padding bg-cream">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-subtitle">İzmir Pro Aesthetic Dental Clinic</div>
+                <div class="section-title">Blog</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 owl-carousel owl-theme">
+                @foreach (var blog in DataRequestModel.Blogs)
+                {
+                    <div class="item">
+                        <div class="img">
+                            <a asp-controller="Blog" asp-action="Detail" asp-route-slug="@blog.Slug">
+                                <img src="@Url.Content("~/image/" + blog.Image)" alt="@blog.Title">
+                            </a>
+                        </div>
+                        <div class="info">
+                            <h6>
+                                <a asp-controller="Blog" asp-action="Detail" asp-route-slug="@blog.Slug">
+                                    @blog.Title
+                                </a>
+                            </h6>
+                        </div>
+                    </div>
+                }
+
+
+            </div>
+        </div>
+    </div>
+</section>
+
+

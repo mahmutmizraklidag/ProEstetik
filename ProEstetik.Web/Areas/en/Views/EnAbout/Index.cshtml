@@ -1,0 +1,146 @@
+﻿@model About
+@{
+    ViewData["Title"] = string.IsNullOrEmpty(Model.MetaTitle) ? "About-Us" : Model.MetaTitle;
+    ViewData["MetaDescription"] = string.IsNullOrEmpty(Model.MetaDescription) ? DataRequestModel.SiteSetting.MetaDescription : Model.MetaDescription;
+    ViewData["MetaKeywords"] = string.IsNullOrEmpty(Model.Keywords) ? DataRequestModel.SiteSetting.Keywords : Model.Keywords;
+
+}
+<!-- Main -->
+<!-- Header Banner -->
+<div class="banner-header section-padding valign bg-img" data-overlay-dark="4" data-background="/img/bg1.png" style="background-image: url(&quot;/img/bg1.png&quot;);">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-left caption mt-90">
+                <h5>İzmir Pro Aestetic Dental Clinic</h5>
+                <h1>About Us</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- About -->
+<section class="rooms-page section-padding">
+    <div class="container">
+        <!-- project content -->
+        <div class="row" data-scroll-index="1">
+            <div class="col-md-12">
+
+                <div class="section-subtitle">@Model.Title</div>
+
+            </div>
+            <div class="col-md-12">
+                @Html.Raw(Model.Description)
+            </div>
+        </div>
+        <div class="row">
+
+            <!-- 3 columns -->
+        </div>
+    </div>
+</section>
+
+
+
+<!-- slider -->
+<section class="team section-padding bg-cream rooms1 section-padding bg-cream">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-subtitle">İzmir Pro Aesthetic Dental Clinic</div>
+                <div class="section-title">Services</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 owl-carousel owl-theme">
+                @foreach (var item in DataRequestModel.Services)
+                {
+                    <div class="item">
+                        <div class="position-re o-hidden"> <img src="~/image/@item.Image2" alt="@item.Title"> </div> <span class="category"><a asp-controller="Contact" asp-action="Index">Call Us</a></span>
+                        <div class="con">
+                            <h5><a asp-area="en" asp-controller="EnServices" asp-action="Index" asp-route-slug="@item.Slug">@item.Title</a></h5>
+                            <div class="line"></div>
+                            <div class="row facilities">
+                                <div class="col col-md-5 text-end">
+                                    <div class="permalink"><a asp-area="en" asp-controller="EnServices" asp-action="Index" asp-route-slug="@item.Slug">Detaylar <i class="ti-arrow-right"></i></a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Contact -->
+<section class="contact section-padding">
+    <div class="container">
+        <div class="row mb-90">
+            <div class="col-md-6 mb-60">
+                <h3>The Cappa Luxury Hotel</h3>
+
+                <div class="reservations mb-30">
+                    <div class="icon"><span class="flaticon-call"></span></div>
+                    <div class="text">
+                        <p>Phone</p> <a href="tel:@DataRequestModel.SiteSetting.Phone">@DataRequestModel.SiteSetting.Phone</a>
+                    </div>
+                </div>
+                <div class="reservations mb-30">
+                    <div class="icon"><span class="flaticon-envelope"></span></div>
+                    <div class="text">
+                        <p>E-mail</p> <a href="@DataRequestModel.SiteSetting.Email">@DataRequestModel.SiteSetting.Email</a>
+                    </div>
+                </div>
+                <div class="reservations">
+                    <div class="icon"><span class="flaticon-location-pin"></span></div>
+                    <div class="text">
+                        <p>Address</p>
+                        <a>
+                            @DataRequestModel.SiteSetting.Address
+
+
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 mb-30 offset-md-1">
+                <h3>Get in touch</h3>
+                <form method="post" class="contact__form" action="mail.php">
+                    <!-- form message -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="alert alert-success contact__msg" style="display: none" role="alert"> Your message was sent successfully. </div>
+                        </div>
+                    </div>
+                    <!-- form elements -->
+                    <div class="row">
+                        <div class="col-md-6 form-group">
+                            <input name="name" type="text" placeholder="Name *" required>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <input name="email" type="email" placeholder="E-mail *" required>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <input name="phone" type="text" placeholder="Phone *" required>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <input name="subject" type="text" placeholder="Subject *" required>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <textarea name="message" id="message" cols="30" rows="4" placeholder="Your Message *" required></textarea>
+                        </div>
+                        <div class="col-md-12">
+                            <button type="submit" class="butn-dark2"><span>Send</span></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- Map Section -->
+        <div class="row">
+            <div class="col-md-12 map animate-box" data-animate-effect="fadeInUp">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d24997.0259672129!2d27.189809!3d38.450055!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14bbd85c3e2d3d6d%3A0xaa0a2cff973f0a12!2zUHJvIEVzdGV0aWsgQcSfxLF6IHZlIERpxZ8gU2HEn2zEscSfxLEgUG9saWtsaW5pxJ9p!5e0!3m2!1str!2sus!4v1759392239405!5m2!1str!2sus" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    </div>
+</section>

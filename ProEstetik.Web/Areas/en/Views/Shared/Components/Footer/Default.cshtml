@@ -1,0 +1,58 @@
+﻿<footer class="footer">
+    <div class="footer-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="footer-column footer-about">
+                        <h3 class="footer-title">
+                            Izmir Pro Aesthetic
+                            Dental Clinic
+                        </h3>
+                        <p class="footer-about-text"></p>
+                        <img src="/img/Main/footertoplu.jpg" alt="İzmir Pro Estetik Diş Kliniği">
+                      
+                    </div>
+                </div>
+                <div class="col-md-3 offset-md-1">
+                    <div class="footer-column footer-explore clearfix">
+                        <h3 class="footer-title">Quick Links</h3>
+                        <ul class="footer-explore-list list-unstyled">
+                            <li><a asp-area="en" asp-controller="EnHome" asp-action="Index">Home</a></li>
+                            <li><a asp-area="en" asp-controller="EnAbout" asp-action="Index">About Us</a></li>
+                            <li><a asp-area="en" asp-controller="EnTeam" asp-action="Index">Team</a></li>
+                            <li><a href="#">Services</a></li>
+                            <li><a asp-area="en" asp-controller="EnBlog" asp-action="Index">Blog</a></li>
+                            <li><a asp-area="en" asp-controller="EnContact" asp-action="Index">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="footer-column footer-contact">
+                        <h3 class="footer-title">Contact</h3>
+                        <p class="footer-contact-text">Kazım Dirik Mah. 375 Sk. No: 16/A Bornova<br>İzmir / Türkiye</p>
+                        <div class="footer-contact-info">
+                            <p class="footer-contact-phone"><span class="flaticon-call"></span> @DataRequestModel.SiteSetting.Phone</p>
+                            <p class="footer-contact-mail">@DataRequestModel.SiteSetting.Email</p>
+                        </div>
+                        <div class="footer-about-social-list">
+                            <a href="@DataRequestModel.SiteSetting.Instagram"><i class="ti-instagram"></i></a>
+                            <a href="@DataRequestModel.SiteSetting.Facebook"><i class="ti-facebook"></i></a>
+                            <a href="@DataRequestModel.SiteSetting.Youtube"><i class="ti-youtube"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="footer-bottom-inner">
+                        <p class="footer-bottom-copy-right">© 2025 All rights reserved. Website design by Ideio Creative</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

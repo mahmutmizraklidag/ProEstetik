@@ -1,0 +1,67 @@
+﻿<!-- Preloader -->
+<div class="preloader-bg"></div>
+<div id="preloader">
+    <div id="preloader-status">
+        <div class="preloader-position loader"> <span></span> </div>
+    </div>
+</div>
+<!-- Progress scroll totop -->
+<div class="progress-wrap cursor-pointer">
+    <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+        <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
+    </svg>
+</div>
+<!-- Sidebar Section -->
+<a href="#" class="js-cappa-nav-toggle cappa-nav-toggle"><i></i></a>
+<aside id="cappa-aside">
+    <!-- Logo -->
+    <div class="cappa-logo">
+        <a asp-controller="Home" asp-action="Index">
+            <img src="@Url.Content("~/img/Logo-new.png")" class="logo-img" alt="">
+            <br>
+            <span>Diş Kliniği</span>
+            @*  <div> <i class="star"></i> <i class="star"></i> <i class="star"></i> <i class="star"></i> <i class="star"></i> </div>
+            <h2>The Cappa<span>Luxury Hotel</span></h2> *@
+        </a>
+    </div>
+    <!-- Menu -->
+    <nav class="cappa-main-menu">
+        <ul>
+            <li><a asp-controller="Home" asp-action="Index">Anasayfa</a></li>
+            <li><a asp-controller="About" asp-action="Index">Hakkımızda</a></li>
+            <li><a asp-controller="Team" asp-action="Index">Ekip</a></li>
+            <li class="cappa-sub">
+                <a href='#' style="color:#aa8453; cursor: pointer;">Hizmetler </a>
+                <ul>
+                    @foreach(var item in DataRequestModel.Services)
+                    {
+                        <li><a asp-controller="Services" asp-action="Index" asp-route-slug="@item.Slug">@item.HomeTitle</a></li>
+                    }
+                  
+                    
+                </ul>
+            </li>
+
+
+            <li><a asp-controller="Blog" asp-action="Index">Blog</a></li>
+            <li><a asp-controller="Contact" asp-action="Index">İletişim</a></li>
+            <li>
+                <a asp-area="en" asp-controller="Enhome" asp-action="Index"><img style="width:25px" src="/img/en.gif" class="logo-img" alt=""></a>
+
+            </li>
+        </ul>
+    </nav>
+    <!-- Sidebar Footer -->
+    <div class="cappa-footer">
+        <div class="footer-column footer-contact">
+            <div class="footer-contact-info">
+                <div class="reservations">
+                    <div class="icon"><span class="flaticon-call"></span></div>
+                    <div class="text">
+                        <p>Bizi Arayın</p> <a href="tel:@DataRequestModel.SiteSetting.Phone">@DataRequestModel.SiteSetting.Phone</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</aside>

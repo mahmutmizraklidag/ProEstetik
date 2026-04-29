@@ -1,0 +1,107 @@
+﻿@model Blog
+@{
+    ViewData["Title"] = string.IsNullOrEmpty(Model.MetaTitle) ? "Blog" : Model.MetaTitle;
+    ViewData["MetaDescription"] = string.IsNullOrEmpty(Model.MetaDescription) ? DataRequestModel.SiteSetting.MetaDescription : Model.MetaDescription;
+    ViewData["MetaKeywords"] = string.IsNullOrEmpty(Model.Keywords) ? DataRequestModel.SiteSetting.Keywords : Model.Keywords;
+
+}
+    <!-- Header Banner -->
+
+
+
+<div class="banner-header section-padding bg-position-center valign bg-img" data-overlay-dark="4" data-background="@Url.Content("~/image/ban.jpg")">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-left caption mt-90">
+                <h5><a href="/blog">Blog</a></h5>
+                <h1>@Model.Title</h1>
+                <div class="post">
+
+                    <div class="date-comment">
+                        <i class="ti-calendar"></i> @Model.CreatedAt.ToString("d/M/yyyy")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <!-- Post -->
+    <section class="section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                <img src="@Url.Content("~/image/" + Model.Image)" class="mb-30" alt="@Model.Title">
+                    <h2>@Model.Title</h2>
+                @Html.Raw(Model.Description)
+
+
+
+
+                </div>
+                <!-- Sidebar -->
+              
+              
+
+            <div class="col-md-4">
+                <div class="news2-sidebar row">
+
+                    <div class="col-md-12">
+                        <div class="widget">
+                            <div class="widget-title">
+                                <h6>Son Bolglar</h6>
+                            </div>
+                            <ul class="recent">
+                                 @foreach (var item in DataRequestModel.Blogs.Take(10))
+                                {
+                                <li>
+                                        <div class="thum"> <img src="@Url.Content("~/image/" + item.Image)" alt="@item.Title"> </div>
+                                        <a asp-controller="Blog" asp-action="Detail" asp-route-slug="@item.Slug">@item.Title</a>
+                                </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            </div>
+        </div>
+    </section>
+<!-- slider -->
+<section class="team section-padding bg-cream rooms1 section-padding bg-cream">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-subtitle">İzmir Pro Estetik Diş Kliniği</div>
+                <div class="section-title">Hizmetler</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 owl-carousel owl-theme">
+                @foreach (var item in DataRequestModel.Services)
+                {
+                    <div class="item">
+                        <div class="position-re o-hidden"> <img src="@Url.Content("~/image/" + item.Image2)" alt="@item.Title"> </div> <span class="category" style="background:#00000045 !important"><a asp-controller="Contacts" asp-action="Index">Bizi Arayın</a></span>
+                        <div class="con">
+                            <h5><a asp-controller="Services" asp-action="Index" asp-route-slug="@item.Slug">@item.Title</a></h5>
+                            <div class="line"></div>
+                            <div class="row facilities">
+                                <div class="col col-md-5 text-end">
+                                    <div class="permalink">
+                                        <a asp-controller="Services" asp-action="Index" asp-route-slug="@item.Slug">
+                                            Detaylar <i class="ti-arrow-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                
+
+            </div>
+
+        </div>
+    </section>

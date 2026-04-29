@@ -1,0 +1,48 @@
+﻿ @model IEnumerable<Team>
+@{
+    ViewData["Title"] = "Uzman Diş Hekimlerimiz | Pro Estetik İzmir";
+    ViewData["MetaDescription"] = "Ekibimizle tanışın.";
+    ViewData["MetaKeywords"] = "";
+
+}
+   <!-- Main -->
+<!-- Header Banner -->
+<div class="banner-header section-padding valign bg-img" data-overlay-dark="4" data-background="/img/bg1.png" style="background-image: url(&quot;/img/bg1.png&quot;);">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-left caption mt-90">
+                <h5>İzmir Pro Estetik Diş Kliniği</h5>
+                <h1>Ekip</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- News  -->
+<section class="news section-padding bg-cream">
+    <div class="container">
+        <div class="row">
+            @foreach(var item in Model)
+            {
+                <div class="col-md-3 mb-30">
+                    <div class="item">
+                        <a asp-controller="Team" asp-action="Detail" asp-route-slug="@item.Slug">
+                            <div class="position-re o-hidden">
+                                <img src="image/@item.Image" alt="@item.Name">
+                            </div>
+                            <div class="con">
+                                <h5>@item.Position @item.Name</h5>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            }
+          
+
+           
+        </div>
+
+    </div>
+</section>
+
+
+

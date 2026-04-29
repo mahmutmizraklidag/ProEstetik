@@ -1,0 +1,53 @@
+﻿@using System.Globalization
+@model IEnumerable<Blog>
+@{
+    ViewData["Title"] = "Dental Health Blog | Pro Aesthetic Izmir";
+    ViewData["MetaDescription"] = " Blogs and the latest news. Everything you need to know about dental aesthetics is here.";
+    ViewData["MetaKeywords"] = "";
+
+}
+<!-- Header Banner -->
+<div class="banner-header section-padding valign bg-img" data-overlay-dark="4" data-background="/img/banner1.jpg" style="background-image: url(&quot;/img/banner1.jpg&quot;);">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-left caption mt-90">
+                <h5>İzmir Pro Aesthetic Dental Clinic
+
+                </h5>
+                <h1>Blog</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- News  -->
+<section class="news section-padding bg-cream">
+    <div class="container">
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-4 mb-30">
+                    <div class="item">
+                        <div class="position-re o-hidden">
+                            <img src="@Url.Content("~/image/" + item.Image)" alt="@item.Title">
+                            <div class="date">
+                                <a asp-controller="Blog" asp-action="Detail" asp-route-slug="@item.Slug">
+                                    <span>@item.CreatedAt.ToString("dd MMMM, yyyy", new CultureInfo("en-US"))</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="con">
+
+                            <h5><a asp-area="en" asp-controller="EnBlog" asp-action="Detail" asp-route-slug="@item.Slug">@item.Title</a></h5>
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+        </div>
+
+    </div>
+</section>
+
+
+

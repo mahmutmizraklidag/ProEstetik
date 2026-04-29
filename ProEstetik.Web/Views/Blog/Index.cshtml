@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Blog>
+@{
+    ViewData["Title"] = "Diş Sağlığı Blogu | Pro Estetik İzmir";
+    ViewData["MetaDescription"] = "Bloglar ve son haberler. Diş estetiği hakkında bilmek istediğini herşey burada. ";
+    ViewData["MetaKeywords"] = "";
+
+}
+<!-- Header Banner -->
+<div class="banner-header section-padding valign bg-img" data-overlay-dark="4" data-background="/img/banner1.jpg" style="background-image: url(&quot;/img/banner1.jpg&quot;);">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-left caption mt-90">
+                <h5>İzmir Pro Estetik Diş Kliniği</h5>
+                <h1>Blog</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- News  -->
+<section class="news section-padding bg-cream">
+    <div class="container">
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-4 mb-30">
+                    <div class="item">
+                        <div class="position-re o-hidden">
+                            <img src="image/@item.Image" alt="en güncel yazılarımız ile gündemi takip edin">
+                            <div class="date">
+                                <a asp-controller="Blog" asp-action="Detail" asp-route-slug="@item.Slug">
+                                    <span>@item.CreatedAt.ToString("dd MMMM, yyyy")</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="con">
+                            
+                            <h5><a asp-controller="BLog" asp-action="Detail" asp-route-slug="@item.Slug">@item.Title</a></h5>
+                        </div>
+                    </div>
+                </div>
+            }
+          
+           
+        </div>
+
+    </div>
+</section>
+
+
+
