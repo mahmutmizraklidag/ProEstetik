@@ -13,13 +13,41 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <!-- Sayfa Başlığı -->
-    <title>@ViewData["Title"]</title>
+    @{
+        var siteUrl = "https://www.proestetik.com.tr";
+        var currentPath = Context.Request.Path.Value ?? "/";
+        var canonicalUrl = ViewData["CanonicalUrl"]?.ToString();
 
-    <!-- Meta Açıklama & Anahtar Kelimeler -->
-    <meta name="description" content="@ViewData["MetaDescription"]">
-    <meta name="keywords" content="@ViewData["MetaKeywords"]">
+        if (string.IsNullOrWhiteSpace(canonicalUrl))
+        {
+            canonicalUrl = siteUrl + currentPath.ToLowerInvariant();
+        }
+
+        var pageTitle = ViewData["Title"]?.ToString() ?? "İzmir Pro Estetik Diş Kliniği";
+        var pageDescription = ViewData["MetaDescription"]?.ToString() ?? "İzmir Bornova'da hizmet veren Pro Estetik Diş Kliniği; implant, zirkonyum kaplama, Hollywood Smile, ortodonti, bonding, gummy smile ve estetik diş hekimliği tedavileri sunar.";
+        var pageKeywords = ViewData["MetaKeywords"]?.ToString() ?? "İzmir diş kliniği, İzmir implant, zirkonyum kaplama, Hollywood Smile İzmir, estetik diş hekimliği, Bornova diş kliniği";
+        var ogImage = ViewData["OgImage"]?.ToString() ?? "https://www.proestetik.com.tr/img/logo.png";
+    }
+    <title>@pageTitle</title>
+
+    <meta name="description" content="@pageDescription">
+    <meta name="keywords" content="@pageKeywords">
     <meta name="author" content="Pro Estetik Diş Kliniği">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="@canonicalUrl" />
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Pro Estetik Diş Kliniği">
+    <meta property="og:title" content="@pageTitle">
+    <meta property="og:description" content="@pageDescription">
+    <meta property="og:url" content="@canonicalUrl">
+    <meta property="og:image" content="@ogImage">
+    <meta property="og:locale" content="tr_TR">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="@pageTitle">
+    <meta name="twitter:description" content="@pageDescription">
+    <meta name="twitter:image" content="@ogImage">
 
     <meta name="robots" content="index, follow">
     <link rel="icon" href="@Url.Content("~/img/favicon.png")" type="image/png" sizes="32x32">
@@ -42,6 +70,150 @@
         {
             @Html.Raw(ViewBag.SchemaJson)
         }
+        else
+        {
+            <script type="application/ld+json">
+                {
+                "@@context": "https://schema.org",
+                "@@type": "Dentist",
+                "@@id": "https://www.proestetik.com.tr/#dentist",
+                "name": "İzmir Pro Estetik Diş Kliniği",
+                "alternateName": [
+                "Pro Estetik",
+                "Izmir Pro Aesthetic Dental Clinic"
+                ],
+                "url": "https://www.proestetik.com.tr/",
+                "image": "https://www.proestetik.com.tr/img/logo.png",
+                "description": "İzmir Bornova'da hizmet veren Pro Estetik Diş Kliniği; implant, zirkonyum kaplama, Hollywood Smile, ortodonti, gummy smile, bonding, diş köprüsü, diş kuronu ve kaplama tedavileri sunar.",
+                "foundingDate": "2011",
+                "founder": {
+                "@@type": "Person",
+                "name": "Doç. Dr. M. Selim Bilgin"
+                },
+                "telephone": "+90 232 463 4747",
+                "email": "info@proestetik.com.tr",
+                "address": {
+                "@@type": "PostalAddress",
+                "streetAddress": "Kazım Dirik Mah. 375 Sk. No: 16/A",
+                "addressLocality": "Bornova",
+                "addressRegion": "İzmir",
+                "addressCountry": "TR"
+                },
+                "areaServed": [
+                {
+                "@@type": "City",
+                "name": "İzmir"
+                },
+                {
+                "@@type": "Country",
+                "name": "Türkiye"
+                }
+                ],
+                "medicalSpecialty": [
+                "Dentistry",
+                "Cosmetic Dentistry",
+                "Implant Dentistry",
+                "Orthodontics"
+                ],
+                "hasOfferCatalog": {
+                "@@type": "OfferCatalog",
+                "name": "Pro Estetik Diş Tedavileri",
+                "itemListElement": [
+                {
+                "@@type": "Offer",
+                "itemOffered": {
+                "@@type": "MedicalProcedure",
+                "name": "Diş İmplantı",
+                "url": "https://www.proestetik.com.tr/hizmetler/dis-implanti"
+                }
+                },
+                {
+                "@@type": "Offer",
+                "itemOffered": {
+                "@@type": "MedicalProcedure",
+                "name": "Hollywood Smile",
+                "url": "https://www.proestetik.com.tr/hizmetler/hollywood-smile"
+                }
+                },
+                {
+                "@@type": "Offer",
+                "itemOffered": {
+                "@@type": "MedicalProcedure",
+                "name": "Zirkonyum Kaplama",
+                "url": "https://www.proestetik.com.tr/hizmetler/zirkonyum-kaplama"
+                }
+                },
+                {
+                "@@type": "Offer",
+                "itemOffered": {
+                "@@type": "MedicalProcedure",
+                "name": "Ortodonti",
+                "url": "https://www.proestetik.com.tr/hizmetler/ortodonti"
+                }
+                },
+                {
+                "@@type": "Offer",
+                "itemOffered": {
+                "@@type": "MedicalProcedure",
+                "name": "Gummy Smile",
+                "url": "https://www.proestetik.com.tr/hizmetler/gummy-smile"
+                }
+                },
+                {
+                "@@type": "Offer",
+                "itemOffered": {
+                "@@type": "MedicalProcedure",
+                "name": "Diş Köprüsü",
+                "url": "https://www.proestetik.com.tr/hizmetler/dis-koprusu"
+                }
+                },
+                {
+                "@@type": "Offer",
+                "itemOffered": {
+                "@@type": "MedicalProcedure",
+                "name": "Bonding",
+                "url": "https://www.proestetik.com.tr/hizmetler/bonding"
+                }
+                },
+                {
+                "@@type": "Offer",
+                "itemOffered": {
+                "@@type": "MedicalProcedure",
+                "name": "Diş Kuronu",
+                "url": "https://www.proestetik.com.tr/hizmetler/dis-kuronu"
+                }
+                },
+                {
+                "@@type": "Offer",
+                "itemOffered": {
+                "@@type": "MedicalProcedure",
+                "name": "Kaplama",
+                "url": "https://www.proestetik.com.tr/hizmetler/kaplama"
+                }
+                }
+                ]
+                },
+                "sameAs": [
+                "https://www.instagram.com/prosestetik/",
+                "https://www.facebook.com/prosestetik/"
+                ]
+                }
+            </script>
+
+            <script type="application/ld+json">
+                {
+                "@@context": "https://schema.org",
+                "@@type": "WebSite",
+                "@@id": "https://www.proestetik.com.tr/#website",
+                "name": "İzmir Pro Estetik Diş Kliniği",
+                "url": "https://www.proestetik.com.tr/",
+                "inLanguage": "tr-TR",
+                "publisher": {
+                "@@id": "https://www.proestetik.com.tr/#dentist"
+                }
+                }
+            </script>
+        }
         <!-- HreflangTags -->
         @if (ViewBag.HreflangTags != null)
         {
@@ -53,16 +225,12 @@
     <div id="cappa-main">
         @RenderBody()
         <!-- _Layout.cshtml dosyanızda body etiketi kapandıktan sonra veya uygun bir yerde ekleyebilirsiniz -->
-        <a href="https://wa.me/905320000000?text=Merhaba%2C%20nas%C4%B1l%20yard%C4%B1m%20edebilirim?"
-           target="_blank"
-           class="whatsapp-float"
-           title="WhatsApp ile iletişime geçin">
-            <!-- FontAwesome kullanarak ikon eklemek isterseniz: -->
-            <i class="bi bi-whatsapp"></i>
-            <!-- Veya local bir resim kullanmak için:
-            <img src="~/images/whatsapp-icon.png" alt="WhatsApp İkonu" />
-            -->
-        </a>
+            <a href="https://wa.me/905327731035?text=Merhabalar%2C%20randevu%20olu%C5%9Fturmak%20istiyorum"
+                   target="_blank"
+                   class="whatsapp-float"
+                   title="WhatsApp ile iletişime geçin">
+                <i class="bi bi-whatsapp"></i>
+            </a>
         @await Component.InvokeAsync("Footer")
     </div>
     <!-- jQuery -->
