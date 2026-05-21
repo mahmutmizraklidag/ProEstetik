@@ -1,0 +1,787 @@
+﻿@model ProEstetik.Web.Entities.Service
+@using System.Text.RegularExpressions
+
+@functions {
+    private string StripHtml(string? value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            return string.Empty;
+
+        var noHtml = Regex.Replace(value, "<.*?>", " ");
+        return Regex.Replace(noHtml, @"\s+", " ").Trim();
+    }
+
+    private string Shorten(string? value, int maxLength)
+    {
+        var text = StripHtml(value);
+
+        if (string.IsNullOrWhiteSpace(text))
+            return string.Empty;
+
+        if (text.Length <= maxLength)
+            return text;
+
+        return text.Substring(0, maxLength).Trim() + "...";
+    }
+
+    private bool IsHtml(string? value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            return false;
+
+        return value.Contains("<") && value.Contains(">");
+    }
+
+    private string ResolveMedia(string? value, string fallback = "~/images/slider/1.jpg")
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            return Url.Content(fallback);
+
+        value = value.Trim();
+
+        if (value.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
+            value.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+            return value;
+
+        if (value.StartsWith("~/"))
+            return Url.Content(value);
+
+        return Url.Content("~/" + value.TrimStart('/'));
+    }
+}
+
+@{
+    var title = Model.Title;
+    var leadText = !string.IsNullOrWhiteSpace(Model.ShortDescription)
+        ? Model.ShortDescription
+        : Shorten(Model.Description, 180);
+
+    var metaDescription = !string.IsNullOrWhiteSpace(Model.MetaDescription)
+        ? Model.MetaDescription
+        : Shorten(Model.ShortDescription ?? Model.Description, 155);
+
+    ViewData["Title"] = !string.IsNullOrWhiteSpace(Model.MetaTitle)
+        ? Model.MetaTitle
+        : $"{title} | Pro Estetik Diş Kliniği";
+
+    ViewData["MetaDescription"] = metaDescription;
+    ViewData["Keywords"] = Model.Keywords;
+
+    var heroImage = ResolveMedia(Model.Image ?? Model.Image2);
+    var secondImage = ResolveMedia(Model.Image2 ?? Model.Image);
+
+    var whatsappNumber = "905327731035";
+    var phoneText = "+90 232 463 4747";
+
+    var whatsappMessage = Uri.EscapeDataString($"Merhabalar, {title} hakkında bilgi almak ve randevu oluşturmak istiyorum.");
+    var whatsappUrl = $"https://wa.me/{whatsappNumber}?text={whatsappMessage}";
+}
+
+<!-- Hero -->
+<section class="service-landing-hero bg-img bg-fixed" data-overlay-dark="5" style="background-image: url('@Url.Content("~/image/" + Model.Image)');">
+    <div class="container">
+        <div class="row align-items-center min-vh-90">
+            <div class="col-lg-10 col-xl-9">
+                <div class="service-landing-kicker">Pro Estetik Diş Kliniği</div>
+
+                <h1>@title</h1>
+
+                @if (!string.IsNullOrWhiteSpace(leadText))
+                {
+                    <p>@leadText</p>
+                }
+
+                <div class="service-landing-actions">
+                    <div class="butn-light">
+                        <a href="#randevu">
+                            <span>Randevu Al</span>
+                        </a>
+                    </div>
+
+                    <div class="butn-dark">
+                        <a href="#detay">
+                            <span>Detayları İncele</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a href="#detay" class="service-landing-scroll" aria-label="Detaylara git">
+        <i class="ti-angle-down"></i>
+    </a>
+</section>
+
+<!-- Mini Navigation -->
+<div class="service-landing-nav">
+    <div class="container">
+        <div class="service-landing-nav-inner">
+            <a href="#detay">Genel Bakış</a>
+            <a href="#avantajlar">Avantajlar</a>
+            <a href="#surec">Süreç</a>
+            <a href="#sss">Sık Sorulanlar</a>
+            <a href="#randevu">Randevu</a>
+        </div>
+    </div>
+</div>
+
+<!-- Detail -->
+<section id="detay" class="section-padding service-landing-detail">
+    <div class="container">
+        <div class="row align-items-center mb-60">
+            <div class="col-lg-6 mb-30">
+                <div class="section-subtitle">Tedavi Detayı</div>
+                <h2 class="section-title">@title</h2>
+
+                <div class="service-landing-rich-text">
+                    @if (IsHtml(Model.Description))
+                    {
+                        @Html.Raw(Model.Description)
+                    }
+                    else if (!string.IsNullOrWhiteSpace(Model.Description))
+                    {
+                        <p>@Model.Description</p>
+                    }
+                    else
+                    {
+                        <p>
+                            Bu hizmet hakkında detaylı bilgi ve size uygun tedavi planı için Pro Estetik Diş Kliniği ile iletişime geçebilirsiniz.
+                        </p>
+                    }
+                </div>
+
+                <div class="service-landing-detail-buttons">
+                    <div class="butn-dark">
+                        <a href="#randevu">
+                            <span>Randevu Oluştur</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="service-landing-image-card">
+                    <img src="@Url.Content("~/image/" + Model.Image)" alt="@title" loading="lazy">
+
+                    <div class="service-landing-image-note">
+                        <span>01</span>
+                        <div>
+                            <h5>Kişiye Özel Planlama</h5>
+                            <p>Muayene sonrasında ihtiyaçlarınıza uygun tedavi süreci planlanır.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row service-landing-info-row">
+            <div class="col-md-4">
+                <div class="service-landing-info-box">
+                    <span class="ti-calendar"></span>
+                    <h5>Ön Görüşme</h5>
+                    <p>Tedaviye başlamadan önce beklentileriniz ve ihtiyaçlarınız değerlendirilir.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="service-landing-info-box">
+                    <span class="ti-heart"></span>
+                    <h5>Konfor Odaklı</h5>
+                    <p>Süreç boyunca hasta konforu ve güvenli tedavi yaklaşımı ön planda tutulur.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="service-landing-info-box">
+                    <span class="ti-check-box"></span>
+                    <h5>Doğal Sonuç</h5>
+                    <p>Estetik ve fonksiyonel beklentilere uygun, doğal görünümlü sonuçlar hedeflenir.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Benefits -->
+<section id="avantajlar" class="section-padding bg-cream service-landing-benefits">
+    <div class="container">
+        <div class="row mb-30">
+            <div class="col-lg-8">
+                <div class="section-subtitle">Neden Bu Hizmet?</div>
+                <h2 class="section-title">@title <span>Avantajları</span></h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-3 col-md-6">
+                <div class="service-benefit-card">
+                    <div class="service-benefit-number">01</div>
+                    <h5>Detaylı Analiz</h5>
+                    <p>Tedavi öncesinde ağız ve diş yapınız detaylı şekilde değerlendirilir.</p>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <div class="service-benefit-card">
+                    <div class="service-benefit-number">02</div>
+                    <h5>Kişisel Plan</h5>
+                    <p>Standart uygulama yerine size özel ihtiyaçlara göre süreç tasarlanır.</p>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <div class="service-benefit-card">
+                    <div class="service-benefit-number">03</div>
+                    <h5>Estetik Yaklaşım</h5>
+                    <p>Doğal görünüm, yüz uyumu ve fonksiyon birlikte değerlendirilir.</p>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <div class="service-benefit-card">
+                    <div class="service-benefit-number">04</div>
+                    <h5>Takip Süreci</h5>
+                    <p>Tedavi sonrası öneriler ve kontrollerle sürecin devamlılığı desteklenir.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Process -->
+<section id="surec" class="section-padding service-landing-process">
+    <div class="container">
+        <div class="row align-items-start">
+            <div class="col-lg-5 mb-30">
+                <div class="section-subtitle">Tedavi Süreci</div>
+                <h2 class="section-title">Süreç Nasıl <span>İlerler?</span></h2>
+                <p>
+                    @title hizmetinde süreç; muayene, planlama, uygulama ve kontrol adımlarından oluşur.
+                    Net süre ve yöntem, kişinin ağız yapısı ve tedavi ihtiyacına göre belirlenir.
+                </p>
+            </div>
+
+            <div class="col-lg-7">
+                <div class="service-process-list">
+                    <div class="service-process-item">
+                        <span>01</span>
+                        <div>
+                            <h5>Muayene ve Değerlendirme</h5>
+                            <p>İlk aşamada mevcut durum incelenir, beklentileriniz dinlenir ve ihtiyaçlar belirlenir.</p>
+                        </div>
+                    </div>
+
+                    <div class="service-process-item">
+                        <span>02</span>
+                        <div>
+                            <h5>Tedavi Planının Oluşturulması</h5>
+                            <p>Size en uygun uygulama yöntemi, seans planı ve süreç detayları paylaşılır.</p>
+                        </div>
+                    </div>
+
+                    <div class="service-process-item">
+                        <span>03</span>
+                        <div>
+                            <h5>Uygulama Süreci</h5>
+                            <p>Planlanan tedavi, klinik standartlara uygun şekilde dikkatle uygulanır.</p>
+                        </div>
+                    </div>
+
+                    <div class="service-process-item">
+                        <span>04</span>
+                        <div>
+                            <h5>Kontrol ve Öneriler</h5>
+                            <p>Tedavi sonrası dikkat edilmesi gerekenler aktarılır ve gerekli kontroller planlanır.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ -->
+<section id="sss" class="section-padding bg-cream service-landing-faq">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5 mb-30">
+                <div class="section-subtitle">Sık Sorulan Sorular</div>
+                <h2 class="section-title">@title Hakkında</h2>
+                <p>
+                    Tedaviye uygunluk, süre ve uygulama detayları kişiye göre değişebilir.
+                    En doğru bilgi için muayene sonrası planlama yapılması önerilir.
+                </p>
+            </div>
+
+            <div class="col-lg-7">
+                <ul class="accordion-box clearfix">
+                    <li class="accordion block active-block">
+                        <div class="acc-btn active">
+                            <span class="count">1.</span> Bu hizmet benim için uygun mu?
+                        </div>
+                        <div class="acc-content current">
+                            <div class="content">
+                                <div class="text">
+                                    Uygunluk; ağız ve diş yapınız, beklentileriniz ve genel durumunuz değerlendirildikten sonra netleşir.
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="accordion block">
+                        <div class="acc-btn">
+                            <span class="count">2.</span> Tedavi süreci ne kadar sürer?
+                        </div>
+                        <div class="acc-content">
+                            <div class="content">
+                                <div class="text">
+                                    Süre, uygulanacak tedavi yöntemine ve kişinin ihtiyacına göre değişir. İlk muayene sonrasında daha net bilgi verilir.
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="accordion block">
+                        <div class="acc-btn">
+                            <span class="count">3.</span> İşlem sonrası nelere dikkat etmeliyim?
+                        </div>
+                        <div class="acc-content">
+                            <div class="content">
+                                <div class="text">
+                                    Tedavi sonrası dikkat edilmesi gerekenler, yapılan işleme göre doktorunuz tarafından detaylı şekilde paylaşılır.
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="accordion block">
+                        <div class="acc-btn">
+                            <span class="count">4.</span> Randevu almadan bilgi alabilir miyim?
+                        </div>
+                        <div class="acc-content">
+                            <div class="content">
+                                <div class="text">
+                                    Evet. WhatsApp veya telefon üzerinden ön bilgi alabilir, ardından muayene randevunuzu oluşturabilirsiniz.
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section id="randevu" class="section-padding service-landing-cta bg-img bg-fixed" data-overlay-dark="6" style="background-image: url('@Url.Content("~/img/ban2.jpg")');">
+    <div class="container">
+        <div class="row justify-content-center text-center">
+            <div class="col-lg-9">
+                <div class="section-subtitle color-1">Randevu ve Bilgi</div>
+                <h2>@title İçin İlk Adımı Atın</h2>
+                <p>
+                    Tedavi süreciniz hakkında detaylı bilgi almak ve size uygun planlamayı oluşturmak için bizimle iletişime geçebilirsiniz.
+                </p>
+
+                <div class="service-landing-cta-actions">
+                    <div class="butn-light">
+                        <a href="@whatsappUrl" target="_blank" rel="noopener">
+                            <span>WhatsApp ile Yaz</span>
+                        </a>
+                    </div>
+
+                    <div class="butn-dark">
+                        <a href="tel:@phoneText.Replace(" ", "")">
+                            <span>@phoneText</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<style>
+    /* ======================================================
+       Service Landing Page
+    ====================================================== */
+
+    .service-landing-hero {
+        min-height: 92vh;
+        position: relative;
+        display: flex;
+        align-items: center;
+        background-position: center;
+    }
+
+    .min-vh-90 {
+        min-height: 92vh;
+    }
+
+    .service-landing-kicker {
+        font-family: 'Barlow Condensed', sans-serif;
+        color: #aa8453;
+        text-transform: uppercase;
+        letter-spacing: 6px;
+        font-size: 15px;
+        margin-bottom: 20px;
+    }
+
+    .service-landing-hero h1 {
+        color: #fff;
+        font-size: 58px;
+        line-height: 1.15em;
+        letter-spacing: 6px;
+        text-transform: uppercase;
+        margin-bottom: 25px;
+    }
+
+    .service-landing-hero p {
+        color: #fff;
+        max-width: 760px;
+        font-size: 18px;
+        line-height: 1.8em;
+        margin-bottom: 35px;
+    }
+
+    .service-landing-actions,
+    .service-landing-cta-actions {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    .service-landing-scroll {
+        position: absolute;
+        left: 50%;
+        bottom: 35px;
+        width: 48px;
+        height: 48px;
+        border: 1px solid rgba(255,255,255,0.45);
+        border-radius: 50%;
+        transform: translateX(-50%);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 3;
+    }
+
+        .service-landing-scroll:hover {
+            border-color: #aa8453;
+            color: #aa8453;
+        }
+
+    .service-landing-nav {
+        position: sticky;
+        top: 0;
+        z-index: 90;
+        background: #fff;
+        border-bottom: 1px solid #f1ece5;
+    }
+
+    .service-landing-nav-inner {
+        display: flex;
+        justify-content: center;
+        gap: 5px;
+        overflow-x: auto;
+        padding: 15px 0;
+    }
+
+        .service-landing-nav-inner a {
+            font-family: 'Barlow Condensed', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #222;
+            font-size: 14px;
+            padding: 10px 18px;
+            white-space: nowrap;
+            transition: all .3s ease;
+        }
+
+            .service-landing-nav-inner a:hover {
+                color: #aa8453;
+            }
+
+    .service-landing-rich-text p:last-child {
+        margin-bottom: 0;
+    }
+
+    .service-landing-rich-text h2,
+    .service-landing-rich-text h3,
+    .service-landing-rich-text h4 {
+        margin-top: 30px;
+    }
+
+    .service-landing-rich-text ul,
+    .service-landing-rich-text ol {
+        padding-left: 20px;
+        margin-bottom: 20px;
+    }
+
+    .service-landing-rich-text li {
+        margin-bottom: 8px;
+    }
+
+    .service-landing-detail-buttons {
+        margin-top: 30px;
+    }
+
+    .service-landing-image-card {
+        position: relative;
+        overflow: hidden;
+    }
+
+        .service-landing-image-card img {
+            min-height: 520px;
+            object-fit: cover;
+        }
+
+        .service-landing-image-card:hover img {
+            transform: scale(1.05);
+        }
+
+    .service-landing-image-note {
+        position: absolute;
+        left: 30px;
+        right: 30px;
+        bottom: 30px;
+        background: #fff;
+        padding: 25px;
+        display: flex;
+        gap: 20px;
+        align-items: flex-start;
+        box-shadow: 0 20px 45px rgba(0,0,0,0.12);
+    }
+
+        .service-landing-image-note span {
+            font-family: 'Gilda Display', serif;
+            color: #aa8453;
+            font-size: 48px;
+            line-height: 1;
+        }
+
+        .service-landing-image-note h5 {
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+
+        .service-landing-image-note p {
+            margin-bottom: 0;
+        }
+
+    .service-landing-info-row {
+        margin-top: 30px;
+    }
+
+    .service-landing-info-box {
+        height: 100%;
+        padding: 35px 30px;
+        background: #faf8f5;
+        border: 1px solid #f1ece5;
+        transition: all .3s ease;
+    }
+
+        .service-landing-info-box:hover {
+            background: #fff;
+            transform: translateY(-6px);
+            box-shadow: 0 18px 40px rgba(0,0,0,0.08);
+        }
+
+        .service-landing-info-box span {
+            font-size: 42px;
+            color: #aa8453;
+            margin-bottom: 22px;
+        }
+
+        .service-landing-info-box h5 {
+            font-size: 23px;
+            margin-bottom: 12px;
+        }
+
+        .service-landing-info-box p {
+            margin-bottom: 0;
+        }
+
+    .service-benefit-card {
+        height: 100%;
+        background: #fff;
+        padding: 35px 28px;
+        border: 1px solid #f1ece5;
+        transition: all .3s ease;
+    }
+
+        .service-benefit-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 20px 45px rgba(0,0,0,0.08);
+        }
+
+    .service-benefit-number {
+        font-family: 'Gilda Display', serif;
+        color: #aa8453;
+        font-size: 44px;
+        line-height: 1;
+        margin-bottom: 22px;
+    }
+
+    .service-benefit-card h5 {
+        font-size: 23px;
+        margin-bottom: 12px;
+    }
+
+    .service-benefit-card p {
+        margin-bottom: 0;
+    }
+
+    .service-process-list {
+        background: #faf8f5;
+        padding: 35px;
+    }
+
+    .service-process-item {
+        display: flex;
+        gap: 25px;
+        padding: 0 0 30px 0;
+        margin-bottom: 30px;
+        border-bottom: 1px solid #eee5da;
+    }
+
+        .service-process-item:last-child {
+            padding-bottom: 0;
+            margin-bottom: 0;
+            border-bottom: none;
+        }
+
+        .service-process-item span {
+            min-width: 65px;
+            height: 65px;
+            border: 1px solid #aa8453;
+            color: #aa8453;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Gilda Display', serif;
+            font-size: 28px;
+        }
+
+        .service-process-item h5 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .service-process-item p {
+            margin-bottom: 0;
+        }
+
+    .service-landing-faq .accordion-box .block {
+        box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+    }
+
+    .service-landing-cta {
+        position: relative;
+        background-position: center;
+    }
+
+        .service-landing-cta h2 {
+            color: #fff;
+            font-size: 46px;
+            margin-bottom: 20px;
+        }
+
+        .service-landing-cta p {
+            color: #fff;
+            font-size: 17px;
+            max-width: 760px;
+            margin: 0 auto 35px auto;
+        }
+
+    .service-landing-cta-actions {
+        justify-content: center;
+    }
+
+    @@media screen and (max-width: 991px) {
+        .service-landing-hero h1 {
+            font-size: 44px;
+            letter-spacing: 4px;
+        }
+
+        .service-landing-image-card img {
+            min-height: 420px;
+        }
+
+        .service-benefit-card,
+        .service-landing-info-box {
+            margin-bottom: 25px;
+        }
+    }
+
+    @@media screen and (max-width: 767px) {
+        .service-landing-hero {
+            min-height: 82vh;
+        }
+
+        .min-vh-90 {
+            min-height: 82vh;
+        }
+
+        .service-landing-hero h1 {
+            font-size: 34px;
+            letter-spacing: 3px;
+        }
+
+        .service-landing-hero p {
+            font-size: 16px;
+        }
+
+        .service-landing-actions,
+        .service-landing-cta-actions {
+            align-items: stretch;
+            flex-direction: column;
+        }
+
+            .service-landing-actions .butn-light a,
+            .service-landing-actions .butn-dark a,
+            .service-landing-cta-actions .butn-light a,
+            .service-landing-cta-actions .butn-dark a {
+                width: 100%;
+                text-align: center;
+            }
+
+        .service-landing-nav-inner {
+            justify-content: flex-start;
+        }
+
+        .service-landing-image-note {
+            position: relative;
+            left: auto;
+            right: auto;
+            bottom: auto;
+            margin-top: 0;
+            box-shadow: none;
+            border: 1px solid #f1ece5;
+        }
+
+        .service-landing-image-card img {
+            min-height: 300px;
+        }
+
+        .service-process-list {
+            padding: 25px;
+        }
+
+        .service-process-item {
+            gap: 18px;
+        }
+
+            .service-process-item span {
+                min-width: 52px;
+                height: 52px;
+                font-size: 22px;
+            }
+
+        .service-landing-cta h2 {
+            font-size: 34px;
+        }
+    }
+</style>
